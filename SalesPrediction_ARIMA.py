@@ -7,16 +7,17 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
 from math import sqrt
+import csv
 
 
 class ARIMAConfig():
-    lag_order = 2
+    lag_order = 1
     degree_differencing = 0
     order_moving_avg = 1
     test_ratio = 0.2
-    fileName = 'store285.csv'
+    fileName = 'store165_2.csv'
     min = 0
-    max = 50000
+    max = 10000
     column = 'Sales'
     store = 285
 
@@ -50,7 +51,7 @@ def preprocess():
 
     store_data = store_data.drop(store_data[(store_data.Open == 0) & (store_data.Sales == 0)].index)
 
-    store_data = store_data.drop(store_data[(store_data.Open != 0) & (store_data.Sales == 0)].index)
+    # store_data = store_data.drop(store_data[(store_data.Open != 0) & (store_data.Sales == 0)].index)
 
     store_data_scale = store_data
     store_data_orginal = store_data.copy()
@@ -61,13 +62,21 @@ def preprocess():
     # ---for segmenting original data ---------------------------------
     nonescaled_sales= store_data_orginal[config.column]
 
-    size = int(len(sales) * (1.0 - config.test_ratio))
+    # size = int(len(sales) * (1.0 - config.test_ratio))
+    test_len = len(store_data[(store_data.Month == 7) & (store_data.Year == 2015)].index)
+
+    size = int(len(store_data) - test_len)
     train = sales[:size]
     test = sales[size:]
     original_train = nonescaled_sales[:size]
     original_test = nonescaled_sales[size:]
 
     return train,test,original_train,original_test
+
+def write_results(true_vals,pred_vals,name):
+    with open(name, "w") as f:
+        writer = csv.writer(f)
+        writer.writerows(zip(true_vals, pred_vals))
 
 def ARIMA_model():
 
@@ -97,6 +106,8 @@ def ARIMA_model():
     print("MAE:", mae)
     mape = mean_absolute_percentage_error(original_test_list, pred_vals)
     print("MAPE:", mape)
+
+    write_results(original_test_list, pred_vals, "ARIMA_results.csv")
 
     plot(original_test_list,pred_vals)
 

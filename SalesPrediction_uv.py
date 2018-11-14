@@ -10,26 +10,27 @@ import pandas as pd
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
 from math import sqrt
+import csv
 
 np.random.seed(1)
 
 
 class RNNConfig():
     input_size = 1
-    num_steps = 2
+    num_steps = 5
     lstm_size = 32
     num_layers = 1
-    keep_prob = 0.2
-    batch_size = 32
+    keep_prob = 0.8
+    batch_size = 16
     init_learning_rate = 0.01
     learning_rate_decay = 0.99
     init_epoch = 10  # 5
-    max_epoch = 50 # 100 or 50
+    max_epoch = 95 # 100 or 50
     test_ratio = 0.2
-    fileName = 'store285.csv'
+    fileName = 'store165_2.csv'
     graph = tf.Graph()
     min = 0
-    max = 50000
+    max = 10000
     column = 'Sales'
     store= 285
 
@@ -74,16 +75,26 @@ def convert_from_log(pred_vals):
 
     return converted_prediction
 
+def RMSPE(y_true, y_pred):
+    y_true, y_pred = np.array(y_true), np.array(y_pred)
+    return np.sqrt(np.mean(np.square(((y_true - y_pred) / y_pred)), axis=0))
+
+
+
 
 def pre_process():
     store_data = pd.read_csv(config.fileName)
 
     store_data = store_data.drop(store_data[(store_data.Open == 0) & (store_data.Sales == 0)].index)
-
-    store_data = store_data.drop(store_data[(store_data.Open != 0) & (store_data.Sales == 0)].index)
+    #
+    # store_data = store_data.drop(store_data[(store_data.Open != 0) & (store_data.Sales == 0)].index)
 
     # ---for segmenting original data ---------------------------------
-    train_size = int(len(store_data) * (1.0 - config.test_ratio))
+    # train_size = int(len(store_data) * (1.0 - config.test_ratio))
+
+    test_len = len(store_data[(store_data.Month == 7) & (store_data.Year == 2015)].index)
+
+    train_size = int(len(store_data) - test_len)
 
     #744
     train_data = store_data[:train_size]
@@ -128,19 +139,44 @@ def generate_batches(train_X, train_y, batch_size):
 
 
 def mean_absolute_percentage_error(y_true, y_pred):
+
+    # y_true = y_true.tolist()
+    # y_pred = y_pred.tolist()
+    #
+    # for i in range(len(y_true)):
+    #     if y_true[i] == 0 :
+    #         index = y_true.index(0)
+    #         del y_true[index]
+    #         del y_pred[index]
+
     y_true, y_pred = np.array(y_true), np.array(y_pred)
+
+
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
 
+def write_results(true_vals,pred_vals):
+
+    true_vals=true_vals.tolist()
+    pred_vals=pred_vals.tolist()
+
+    with open("RNN_uv_results.csv", "w") as f:
+        writer = csv.writer(f)
+        writer.writerows(zip(true_vals, pred_vals))
+
 def plot(true_vals, pred_vals, name):
+
+    write_results(true_vals,pred_vals)
+
     fig = plt.figure()
+    fig = plt.figure(dpi=100, figsize=(10, 6))
     days = range(len(true_vals))
     plt.plot(days, true_vals, label='truth sales')
     plt.plot(days, pred_vals, label='pred sales')
     plt.legend(loc='upper left', frameon=False)
     plt.yscale('log')
     plt.xlabel("day")
-    plt.ylabel("closing price")
+    plt.ylabel("sales")
     plt.grid(ls='--')
     plt.savefig(name, format='png', bbox_inches='tight', transparent=False)
     plt.show()
@@ -149,13 +185,13 @@ def plot(true_vals, pred_vals, name):
 
 
 def plot_main_distribution(store_data):
-    fig = plt.figure(dpi=100, figsize=(10, 6))
+    fig = plt.figure(dpi=100, figsize=(20, 8))
     plt.plot(store_data.Date, store_data.Sales, label='sales values')
     plt.yscale('log')
     plt.legend(loc='upper left', frameon=False)
     plt.xlabel("day")
     plt.ylabel("sales")
-    plt.savefig("Original Sales distribution of store 285 .png", format='png', bbox_inches='tight', transparent=False)
+    plt.savefig("Original Sales distribution of store 285.png", format='png', bbox_inches='tight', transparent=False)
     plt.close()
 
 
@@ -256,6 +292,8 @@ def train_test():
 
         # pred_vals = convert_from_log(pred_vals)
 
+
+
         pred_vals = np.array(pred_vals)
 
         pred_vals = pred_vals.flatten()
@@ -269,6 +307,8 @@ def train_test():
         print("MAE:", mae)
         mape = mean_absolute_percentage_error(nonescaled_y, pred_vals)
         print("MAPE:", mape)
+        rmse_val = RMSPE(nonescaled_y, pred_vals)
+        print("RMSPE:", rmse_val)
 
         plot(nonescaled_y, pred_vals, "RNN Sales Prediction VS Truth uv 285.png")
 
