@@ -1,39 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3cda2a0a-bbb4-40bb-83b1-599cebb64136" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ARIMA_log.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Draw_subplots.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv2_Online.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv4.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv5.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv_LSTM2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv_ML.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv_Online.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv_Online_ML.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv_addi_features.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv_lagged.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_mv_log.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_uv2_Online.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_uv_Online.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SalesPrediction_uv_log.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gitignore.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/Liner Regression Prediction Vs Truth.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/RNN Sales Prediction VS Truth uv 285.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/Random Forest Regressor Prediction Vs Truth.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/Sales ARIMA Prediction Vs Truth .png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Liner Regression Prediction Vs Truth.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Original Sales distribution of store 285 .png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/Original Sales distribution of store 285 .png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN Sales Prediction VS Truth uv 285.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Random Forest Regressor Prediction Vs Truth.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sales ARIMA Prediction Vs Truth .png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SalesPrediction_ARIMA.py" beforeDir="false" afterPath="$PROJECT_DIR$/SalesPrediction_ARIMA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SalesPrediction_ML.py" beforeDir="false" afterPath="$PROJECT_DIR$/SalesPrediction_uv_ML.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SalesPrediction_uv.py" beforeDir="false" afterPath="$PROJECT_DIR$/SalesPrediction_uv.py" afterDir="false" />
-    </list>
+    <list default="true" id="3cda2a0a-bbb4-40bb-83b1-599cebb64136" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +71,7 @@
           <entry key="csv" value="65" />
           <entry key="md" value="1" />
           <entry key="png" value="86" />
-          <entry key="py" value="158" />
+          <entry key="py" value="159" />
           <entry key="txt" value="2" />
         </counts>
       </usages-collector>
@@ -113,7 +81,7 @@
           <entry key="Image" value="86" />
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="5" />
-          <entry key="Python" value="158" />
+          <entry key="Python" value="159" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -135,6 +103,18 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SalesPrediction_mv.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="334">
+              <caret line="147" lean-forward="true" selection-start-line="147" selection-end-line="147" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gitignore.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="15">
@@ -209,11 +189,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="4">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="65" />
-    <option name="y" value="24" />
+    <option name="y" value="-4" />
     <option name="width" value="952" />
-    <option name="height" value="1056" />
+    <option name="height" value="1084" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -406,14 +386,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="952" height="1056" extended-state="4" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.5066225" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25373134" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3275862" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32740587" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49892932" weight="0.30603448" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32217574" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -772,16 +752,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SalesPrediction_mv.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="245" column="37" lean-forward="true" selection-start-line="245" selection-start-column="7" selection-end-line="245" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Results">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -875,6 +845,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SalesPrediction_mv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="147" lean-forward="true" selection-start-line="147" selection-end-line="147" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
