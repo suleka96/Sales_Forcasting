@@ -16,7 +16,9 @@ from sklearn.model_selection import GridSearchCV
 
 class MLConfig():
     input_size = 1
-    num_steps = 8
+    num_steps = 6
+    num_steps_with_lable_features = num_steps + 1
+    lstm_size = 32
     fileName = 'store2_1.csv'
     graph = tf.Graph()
     features = 4
@@ -38,7 +40,12 @@ def segmentation(data):
            for i in range(len(seq) // config.features)]
 
     # split into groups of num_steps
-    temp_X = np.array([seq[i: i + config.num_steps] for i in range(len(seq) -  config.num_steps)])
+    temp_X = np.array([seq[i: i + config.num_steps_with_lable_features] for i in range(len(seq) -  config.num_steps)])
+
+    # replacenig sales of each last time step with 0 as that is what we are going to predict
+    for i in range(len(temp_X)):
+        temp_X[i][(len(temp_X[i]) - 1)][0] = 0
+
     X = []
 
     for dataslice in temp_X:
@@ -55,6 +62,7 @@ def segmentation(data):
     y = np.asarray(y)
 
     return X, y
+
 
 def scale(data):
 
@@ -85,8 +93,8 @@ def pre_process():
     train_size = int(len(store_data) - test_len)
 
     train_data = store_data[:train_size]
-    test_data = store_data[(train_size-config.num_steps):]
-    original_data = store_data[(train_size-config.num_steps):]
+    test_data = store_data[(train_size-config.num_steps_with_lable_features):]
+    original_data = store_data[(train_size-config.num_steps_with_lable_features):]
 
     # -------------- processing train data---------------------------------------
 
@@ -177,7 +185,7 @@ def Linear_Regression():
 
     write_results(nonescaled_y, pred_vals, "LinearRegression_mv_results.csv")
 
-    plot(nonescaled_y,pred_vals,"Liner Regression mv Prediction Vs Truth.png")
+    plot(nonescaled_y,pred_vals,"Liner Regression addi featres mv Prediction Vs Truth.png")
 
 
 def XGB():
@@ -223,7 +231,7 @@ def XGB():
 
     write_results(nonescaled_y, pred_vals, "XGBoost Regressor mv_results.csv")
 
-    plot(nonescaled_y, pred_vals, "XGBoost Regressor mv Prediction Vs Truth.png")
+    plot(nonescaled_y, pred_vals, "XGBoost Regressor addi featres mv Prediction Vs Truth.png")
 
 
 def Random_Forest_Regressor():
@@ -259,7 +267,7 @@ def Random_Forest_Regressor():
 
     write_results(nonescaled_y, pred_vals, "RandomForestRegressor mv_results.csv")
 
-    plot(nonescaled_y,pred_vals,"Random Forest Regressor mv Prediction Vs Truth.png")
+    plot(nonescaled_y,pred_vals,"Random Forest Regressor addi featres mv Prediction Vs Truth.png")
 
 
 if __name__ == '__main__':

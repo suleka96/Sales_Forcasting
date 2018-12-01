@@ -14,21 +14,21 @@ tf.set_random_seed(1)
 
 class RNNConfig():
     input_size = 1
-    num_steps = 6#5
+    num_steps = 14#5
     lstm_size = 32
     num_layers = 1
     keep_prob = 0.8
-    batch_size = 16
+    batch_size = 8
     init_learning_rate = 0.01
     learning_rate_decay = 0.99
     init_epoch = 5  # 5
-    max_epoch = 100  # 100 or 50
+    max_epoch = 60  # 100 or 50
     test_ratio = 0.2
-    fileName = 'store165_3.csv'
+    fileName = 'store165_2.csv'
     graph = tf.Graph()
-    features = 5
-    column_min_max = [[0,10000], [1,7]]
-    columns = ['Sales', 'DayOfWeek','SchoolHoliday', 'Promo', 'Lagged_Open']
+    features = 4
+    column_min_max = [[0,11000], [1,7]]
+    columns = ['Sales', 'DayOfWeek','SchoolHoliday', 'Promo']
 
 config = RNNConfig()
 
@@ -71,23 +71,33 @@ def rescle(test_pred):
 def pre_process():
     store_data = pd.read_csv(config.fileName)
 
-    store_data = store_data.drop(store_data[(store_data.Open == 0) & (store_data.Sales == 0)].index)
+    # store_data = store_data.drop(store_data[(store_data.Open == 0) & (store_data.Sales == 0)].index)
     #
     # store_data = store_data.drop(store_data[(store_data.Open != 0) & (store_data.Sales == 0)].index)
 
     # ---for segmenting original data --------------------------------
     original_data = store_data.copy()
 
-    # train_size = int(len(store_data) * (1.0 - config.test_ratio))
+    ## train_size = int(len(store_data) * (1.0 - config.test_ratio))
+
+
 
     test_len = len(store_data[(store_data.Month == 7) & (store_data.Year == 2015)].index)
-
-
     train_size = int(len(store_data) - test_len)
+
 
     train_data = store_data[:train_size]
     test_data = store_data[(train_size-config.num_steps):]
-    original_data = store_data[(train_size-config.num_steps):]
+    original_data = original_data[(train_size-config.num_steps):]
+
+    # validation_len = len(store_data[(store_data.Month == 6) & (store_data.Year == 2015)].index)
+    # test_len = len(store_data[(store_data.Month == 7) & (store_data.Year == 2015)].index)
+    # train_size = int(len(store_data) -  (validation_len+test_len))
+    #
+    # train_data = store_data[:train_size]
+    # validation_data = store_data[(train_size-config.num_steps): validation_len]
+    # test_data = store_data[(validation_len - config.num_steps): ]
+    # original_data = original_data[(train_size-config.num_steps):]
 
     # -------------- processing train data---------------------------------------
     scaled_train_data = scale(train_data)
@@ -121,6 +131,9 @@ def generate_batches(train_X, train_y, batch_size):
 
 def mean_absolute_percentage_error(y_true, y_pred):
     y_true, y_pred = np.array(y_true), np.array(y_pred)
+    itemindex = np.where(y_true == 0)
+    y_true = np.delete(y_true, itemindex)
+    y_pred = np.delete(y_pred, itemindex)
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
 def RMSPE(y_true, y_pred):
@@ -161,7 +174,7 @@ def train_test():
         targets = tf.placeholder(tf.float32, [None, config.input_size], name="targets")
         keep_prob = tf.placeholder(tf.float32, None, name="keep_prob")
 
-        cell = tf.contrib.rnn.LSTMCell(config.lstm_size, state_is_tuple=True, activation=tf.nn.tanh)
+        cell = tf.contrib.rnn.LSTMCell(config.lstm_size, state_is_tuple=True, activation=tf.nn.relu)
 
         val1, _ = tf.nn.dynamic_rnn(cell, inputs, dtype=tf.float32)
 
@@ -174,13 +187,12 @@ def train_test():
         # prediction = tf.layers.dense(drop_out, units=1, activation=None)
 
 
-        # # hidden layer
-        # hidden = tf.layers.dense(last, units=20, activation=tf.nn.relu)
-        #
-        # prediction = tf.contrib.layers.fully_connected(hidden, num_outputs=1, activation_fn=None)
-        #
+        # hidden layer
+        last = tf.layers.dense(last, units=30, activation=tf.nn.relu)
+        last = tf.layers.dense(last, units=15, activation=tf.nn.relu)
 
-        weight = tf.Variable(tf.truncated_normal([config.lstm_size, config.input_size]))
+
+        weight = tf.Variable(tf.truncated_normal([15, config.input_size]))
         bias = tf.Variable(tf.constant(0.1, shape=[config.input_size]))
 
         prediction = tf.matmul(last, weight) + bias
@@ -226,6 +238,7 @@ def train_test():
 
         saver = tf.train.Saver()
         saver.save(sess, "checkpoints_sales/sales_pred.ckpt")
+
 
     # --------------------testing------------------------------------------------------
 

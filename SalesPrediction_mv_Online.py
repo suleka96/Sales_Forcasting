@@ -214,7 +214,7 @@ def train_test():
             print("RMSE:", rootMeanSquaredError)
             RMSE_mean.append(np.mean(RMSE))
 
-            RMSE.append(rootMeanSquaredError/iteration)
+            RMSE.append(rootMeanSquaredError)
 
             train_loss, _, value = sess.run([loss, minimize, val1], train_data_feed)
 

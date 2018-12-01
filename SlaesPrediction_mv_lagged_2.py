@@ -14,7 +14,7 @@ tf.set_random_seed(1)
 
 class RNNConfig():
     input_size = 1
-    num_steps = 7#5
+    num_steps = 6#5
     lstm_size = 32
     num_layers = 1
     keep_prob = 0.8
@@ -24,7 +24,7 @@ class RNNConfig():
     init_epoch = 5  # 5
     max_epoch = 60  # 100 or 50
     test_ratio = 0.2
-    fileName = 'store165_lagged.csv'
+    fileName = 'store165_lagged2.csv'
     graph = tf.Graph()
     features = 4
     column_min_max = [[0,10000], [1,7]]
@@ -69,7 +69,7 @@ def rescle(test_pred):
 
 
 def pre_process():
-    store_data = pd.read_csv(config.fileName,skiprows=[1])
+    store_data = pd.read_csv(config.fileName,skipfooter=1)
 
     store_data = store_data.drop(store_data[(store_data.Open == 0) & (store_data.Sales == 0)].index)
     #
@@ -255,8 +255,8 @@ def train_test():
 
         nonescaled_y = nonescaled_y.tolist()
 
-        plot(nonescaled_y, pred_vals, "Sales Prediction VS Truth mv lagged.png")
-        write_results(nonescaled_y, pred_vals, "Sales Prediction batch mv results.csv")
+        plot(nonescaled_y, pred_vals, "Sales Prediction VS Truth mv lagged 2.png")
+        write_results(nonescaled_y, pred_vals, "Sales Prediction batch mv lagged 2 results.csv")
 
         meanSquaredError = mean_squared_error(nonescaled_y, pred_vals)
         rootMeanSquaredError = sqrt(meanSquaredError)

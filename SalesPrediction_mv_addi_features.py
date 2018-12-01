@@ -19,16 +19,16 @@ class RNNConfig():
     lstm_size = 32
     num_layers = 1
     keep_prob = 0.8
-    batch_size = 8
+    batch_size = 16
     init_learning_rate = 0.01
     learning_rate_decay = 0.99
     init_epoch = 5  # 5
     max_epoch = 60  # 100 or 50
     test_ratio = 0.2
-    fileName = 'store165_2.csv'
+    fileName = 'store2_1.csv'
     graph = tf.Graph()
     features = 4
-    column_min_max = [[0,10000], [1,7]]
+    column_min_max = [[0,11000], [1,7]]
     columns = ['Sales', 'DayOfWeek','SchoolHoliday', 'Promo']
 
 config = RNNConfig()
@@ -185,7 +185,11 @@ def train_test():
         # prediction = tf.contrib.layers.fully_connected(hidden, num_outputs=1, activation_fn=None)
         #
 
-        weight = tf.Variable(tf.truncated_normal([config.lstm_size, config.input_size]))
+        # hidden layer
+        last = tf.layers.dense(last, units=30, activation=tf.nn.relu)
+        last = tf.layers.dense(last, units=15, activation=tf.nn.relu)
+
+        weight = tf.Variable(tf.truncated_normal([15, config.input_size]))
         bias = tf.Variable(tf.constant(0.1, shape=[config.input_size]))
 
         prediction = tf.matmul(last, weight) + bias
@@ -260,7 +264,7 @@ def train_test():
 
         nonescaled_y = nonescaled_y.tolist()
 
-        plot(nonescaled_y, pred_vals, "Sales Prediction VS Truth mv.png")
+        plot(nonescaled_y, pred_vals, "Sales Prediction VS Truth mv addi.png")
         write_results(nonescaled_y, pred_vals, "Sales Prediction batch mv results aadi.csv")
 
         meanSquaredError = mean_squared_error(nonescaled_y, pred_vals)

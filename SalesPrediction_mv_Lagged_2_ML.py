@@ -16,11 +16,20 @@ from sklearn.model_selection import GridSearchCV
 
 class MLConfig():
     input_size = 1
-    num_steps = 8
-    fileName = 'store2_1.csv'
+    num_steps = 6
+    lstm_size = 32
+    num_layers = 1
+    keep_prob = 0.8
+    batch_size = 16
+    init_learning_rate = 0.01
+    learning_rate_decay = 0.99
+    init_epoch = 10  # 5
+    max_epoch = 50  # 100 or 50
+    test_ratio = 0.2
+    fileName = 'store165_lagged2.csv'
     graph = tf.Graph()
     features = 4
-    column_min_max = [[0, 11000], [1, 7]]
+    column_min_max = [[0, 10000], [1, 7]]
     columns = ['Sales', 'DayOfWeek', 'SchoolHoliday', 'Promo']
 
 
@@ -72,7 +81,7 @@ def rescle(test_pred):
 
 def pre_process():
 
-    store_data = pd.read_csv(config.fileName)
+    store_data = pd.read_csv(config.fileName,skipfooter=1)
 
     store_data = store_data.drop(store_data[(store_data.Open == 0) & (store_data.Sales == 0)].index)
 
@@ -177,7 +186,7 @@ def Linear_Regression():
 
     write_results(nonescaled_y, pred_vals, "LinearRegression_mv_results.csv")
 
-    plot(nonescaled_y,pred_vals,"Liner Regression mv Prediction Vs Truth.png")
+    plot(nonescaled_y,pred_vals,"Liner Regression lagged 2 mv Prediction Vs Truth.png")
 
 
 def XGB():
@@ -223,7 +232,7 @@ def XGB():
 
     write_results(nonescaled_y, pred_vals, "XGBoost Regressor mv_results.csv")
 
-    plot(nonescaled_y, pred_vals, "XGBoost Regressor mv Prediction Vs Truth.png")
+    plot(nonescaled_y, pred_vals, "XGBoost Regressor lagged 2 mv Prediction Vs Truth.png")
 
 
 def Random_Forest_Regressor():
@@ -259,7 +268,7 @@ def Random_Forest_Regressor():
 
     write_results(nonescaled_y, pred_vals, "RandomForestRegressor mv_results.csv")
 
-    plot(nonescaled_y,pred_vals,"Random Forest Regressor mv Prediction Vs Truth.png")
+    plot(nonescaled_y,pred_vals,"Random Forest Regressor lagged 2 mv Prediction Vs Truth.png")
 
 
 if __name__ == '__main__':

@@ -152,6 +152,7 @@ def SGD():
     for i in range(len(train_X)):
         X, y = train_X[i:i + 1], train_y[i:i + 1]
         clf.partial_fit(X, y)
+        print("l")
 
     predsgdr = clf.predict(test_X)
 

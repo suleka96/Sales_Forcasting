@@ -66,9 +66,9 @@ def tryit():
 
     # stock_data = pd.read_csv('processed_train.csv')
     #
-    # datatof = stock_data[(stock_data.Store == 749)]
+    # datatof = stock_data[(stock_data.Store == 2)]
     #
-    # datatof.to_csv('store749.csv', sep=',', encoding='utf-8')
+    # datatof.to_csv('store2.csv', sep=',', encoding='utf-8')
     #
     # return stock_data
 
@@ -76,14 +76,14 @@ def tryit():
 
     #extracting date year and month from date column
     #
-    # stock_data = pd.read_csv('store749.csv')
+    # stock_data = pd.read_csv('store2.csv')
     # stock_data['Date'] = pd.to_datetime(stock_data['Date'])
     #
     # stock_data['Year'] = stock_data['Date'].dt.year
     # stock_data['Month'] = stock_data['Date'].dt.month
     # stock_data['Day'] = stock_data['Date'].dt.day
     #
-    # with open(r'store749.csv', 'r') as f, open(r'store749_1.csv','w') as g:
+    # with open(r'store2.csv', 'r') as f, open(r'store2_1.csv','w') as g:
     #     fr = csv.reader(f)
     #     gw = csv.writer(g)
     #     gw.writerow(next(fr))
@@ -92,7 +92,7 @@ def tryit():
     ##########################################################################################################
 
     # lagged_open = []
-    # stock_data = pd.read_csv('store165_2.csv')
+    # stock_data = pd.read_csv('store2_1.csv')
     # open_val = np.array(stock_data['Open']).tolist()
     #
     # for i in range(len(stock_data)):
@@ -106,7 +106,7 @@ def tryit():
     #             lagged_open.append(0)
     #
     #
-    # with open(r'store165_2.csv', 'r') as f, open(r'store165_3.csv','w') as g:
+    # with open(r'store2_1.csv', 'r') as f, open(r'store2_2.csv','w') as g:
     #     fr = csv.reader(f)
     #     gw = csv.writer(g)
     #     gw.writerow(next(fr))
@@ -116,10 +116,10 @@ def tryit():
 
     stock_data1 = pd.read_csv('store165_2.csv')
     stock_data2 = stock_data1.copy()
-    stock_data2['DayOfWeek'] = stock_data2['DayOfWeek'].shift()
-    stock_data2['Promo'] = stock_data2['Promo'].shift()
-    stock_data2['SchoolHoliday'] = stock_data2['SchoolHoliday'].shift()
-    stock_data2.to_csv('store165_lagged.csv', sep=',', encoding='utf-8')
+    stock_data2['DayOfWeek'] = stock_data2['DayOfWeek'].shift(-1)
+    stock_data2['Promo'] = stock_data2['Promo'].shift(-1)
+    stock_data2['SchoolHoliday'] = stock_data2['SchoolHoliday'].shift(-1)
+    stock_data2.to_csv('store165_lagged2.csv', sep=',', encoding='utf-8')
 
 
 
